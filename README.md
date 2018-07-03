@@ -2,23 +2,36 @@
 
 # geometr
 
-Description of package
+An R package to query Environment and Climate Change Canada’s Geospatial
+web services
 
 ### Features
 
+  - Currently the hydrometric webservice is the only data available
+
 ### Installation
+
+``` r
+install.packages("remotes")
+remotes::install_github("bcgov/geometr")
+```
 
 ### Usage
 
-#### Example
-
-This is a basic example which shows you how to solve a common problem:
-
 ``` r
-## basic example code
+library(geometr)
+geo_stations(STATION_NUMBER = "08MF005")
+#>   CONTRIBUTOR_FR STATUS_EN STATION_NUMBER
+#> 1             NA    Active        08MF005
+#>                          CONTRIBUTOR_EN VERTICAL_DATUM  STATUS_FR
+#> 1 WATER SURVEY OF CANADA (DOE) (CANADA)  ASSUMED DATUM En service
+#>           STATION_NAME IDENTIFIER PROV_TERR_STATE_LOC LATITUDE LONGITUDE
+#> 1 FRASER RIVER AT HOPE    08MF005                  BC 49.38596 -121.4542
 ```
 
 ### Project Status
+
+Very much a work in progress.
 
 ### Getting Help or Reporting an Issue
 
