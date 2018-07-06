@@ -5,12 +5,21 @@ status](https://travis-ci.org/bcgov/geometr.svg?branch=master)](https://travis-c
 
 # geometr
 
-An R package to query Environment and Climate Change Canada’s Geospatial
-web services
+An R package to query Environment and Climate Change Canada’s GeoMet
+webservices
+
+## Project Status
+
+This package is maintained by the Knowledge Management Branch of the
+[British Columbia Ministry of Environment and Climate Change
+Strategy](https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/environment-climate-change).
+This project is under construction is not stable for any kind of
+sustained use.
 
 ### Features
 
-  - Currently the hydrometric webservice is the only data available
+  - Currently the hydrometric historical webservice is the only data
+    available through this service
 
 ### Installation
 
@@ -32,11 +41,6 @@ geomet_stations(station_number = "08MF005")
 #> #   IDENTIFIER <chr>, PROV_TERR_STATE_LOC <chr>, LATITUDE <dbl>,
 #> #   LONGITUDE <dbl>
 ```
-
-### Project Status
-
-This project is under construction is not stable for any kind of sustain
-use.
 
 ### Getting Help or Reporting an Issue
 
