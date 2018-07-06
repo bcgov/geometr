@@ -32,13 +32,13 @@ remotes::install_github("bcgov/geometr")
 
 ```{r}
 library(geometr)
-geo_stations(STATION_NUMBER = "08MF005")
+geomet_stations(station_number = "08MF005")
 ```
 
 
 ### Project Status
 
-Very much a work in progress.
+This project is under construction is not stable for any kind of sustain use. 
 
 ### Getting Help or Reporting an Issue
 

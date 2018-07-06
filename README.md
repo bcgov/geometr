@@ -20,18 +20,20 @@ remotes::install_github("bcgov/geometr")
 
 ``` r
 library(geometr)
-geo_stations(STATION_NUMBER = "08MF005")
-#>   CONTRIBUTOR_FR STATUS_EN STATION_NUMBER
-#> 1             NA    Active        08MF005
-#>                          CONTRIBUTOR_EN VERTICAL_DATUM  STATUS_FR
-#> 1 WATER SURVEY OF CANADA (DOE) (CANADA)  ASSUMED DATUM En service
-#>           STATION_NAME IDENTIFIER PROV_TERR_STATE_LOC LATITUDE LONGITUDE
-#> 1 FRASER RIVER AT HOPE    08MF005                  BC 49.38596 -121.4542
+geomet_stations(station_number = "08MF005")
+#> # A tibble: 1 x 11
+#>   CONTRIBUTOR_FR STATUS_EN STATION_NUMBER CONTRIBUTOR_EN    VERTICAL_DATUM
+#> * <lgl>          <chr>     <chr>          <chr>             <chr>         
+#> 1 NA             Active    08MF005        WATER SURVEY OF ~ ASSUMED DATUM 
+#> # ... with 6 more variables: STATUS_FR <chr>, STATION_NAME <chr>,
+#> #   IDENTIFIER <chr>, PROV_TERR_STATE_LOC <chr>, LATITUDE <dbl>,
+#> #   LONGITUDE <dbl>
 ```
 
 ### Project Status
 
-Very much a work in progress.
+This project is under construction is not stable for any kind of sustain
+use.
 
 ### Getting Help or Reporting an Issue
 
