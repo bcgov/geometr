@@ -37,6 +37,8 @@ geomet_client <- function(geomet_param = NULL) {
 
 stop_if_all_args_null <- function() {
 
+  ## Original idea from: https://stackoverflow.com/a/14398674/5596534
+
   ## Set parent environment
   parent_env <- sys.parent()
 
