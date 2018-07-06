@@ -1,61 +1,123 @@
-#' Query Water survey of Canada stations
+#' Query Water Survey of Canada data
 #'
-#' Query geospatial webservice for hydrometric data
+#' Query geomet webservice for hydrometric data
 #'
-#' @param STATION_NUMBER 7 digit unique station ID
-#' @param as_spatial Convert to sf object
+#' @param station_number A seven digit Water Survey of Canada station number.
+#' @param as_spatial Convert to sf object. Defaults to FALSE.
 #'
 #' @export
+#'
+#' @examples  geomet_stations("08MF005")
 
-geomet_stations <- function(STATION_NUMBER = NULL, as_spatial = FALSE){
+geomet_stations <- function(station_number = NULL, as_spatial = FALSE){
 
   is_there_internet()
 
-  cli <- geomet_client(met_param = "hydrometric-annual-statistics")
+  cli <- geomet_client(geomet_param = "hydrometric-stations")
 
-  res <- cli$get(query = list(STATION_NUMBER = STATION_NUMBER))
+  res <- cli$get(query = list(STATION_NUMBER = station_number))
 
   txt <- res$parse("UTF-8")
 
-  if(as_spatial) return(sf::read_sf(txt))
+  if(as_spatial) return(spatial_parse(txt))
+
+  if(!as_spatial) tibble_parse(txt)
+
+}
+
+#' Query Water Survey of Canada data
+#'
+#' Query geomet webservice for hydrometric data
+#'
+#' @inheritParams geomet_stations
+#'
+#' @export
+#'
+#' @examples  geomet_daily_mean("08MF005")
+geomet_daily_mean <- function(station_number = NULL, as_spatial = FALSE){
+
+  is_there_internet()
+
+  cli <- geomet_client(geomet_param = "hydrometric-daily-mean")
+
+  res <- cli$get(query = list(STATION_NUMBER = station_number))
+
+  txt <- res$parse("UTF-8")
+
+  if(as_spatial) return(spatial_parse(txt))
+
+  if(!as_spatial) tibble_parse(txt)
+}
+
+#' Query Water Survey of Canada data
+#'
+#' Query geomet webservice for hydrometric data
+#'
+#' @inheritParams geomet_stations
+#'
+#' @export
+#'
+#' @examples  geomet_annual_stats("08MF005")
+geomet_annual_stats <- function(station_number = NULL, as_spatial = FALSE) {
+
+  is_there_internet()
+
+  cli <- geomet_client(geomet_param = "hydrometric-annual-statistics")
+
+  res <- cli$get(query = list(STATION_NUMBER = station_number))
+
+  txt <- res$parse("UTF-8")
+
+  if(as_spatial) return(spatial_parse(txt))
+
+  if(!as_spatial) tibble_parse(txt)
+}
+
+#' Query Water Survey of Canada data
+#'
+#' Query geomet webservice for hydrometric data
+#'
+#' @inheritParams geomet_stations
+#'
+#' @export
+#'
+#' @examples  geomet_annual_instant_peaks("08MF005")
+geomet_annual_instant_peaks <- function(station_number = NULL, as_spatial = FALSE) {
+
+  is_there_internet()
+
+  cli <- geomet_client(geomet_param = "hydrometric-annual-peaks")
+
+  res <- cli$get(query = list(STATION_NUMBER = station_number))
+
+  txt <- res$parse("UTF-8")
+
+  if(as_spatial) return(spatial_parse(parsed_txt = txt))
 
   if(!as_spatial) tibble_parse(parsed_txt = txt)
-
 }
 
 
-geo_daily_flows <- function(STATION_NUMBER = NULL, as_spatial = FALSE){
+#' Query Water Survey of Canada data
+#'
+#' Query geomet webservice for hydrometric data
+#'
+#' @inheritParams geomet_stations
+#'
+#' @export
+#'
+#' @examples geomet_monthly_mean("08MF005")
+geomet_monthly_mean <- function(station_number = NULL, as_spatial = FALSE) {
 
   is_there_internet()
 
-  (cli <- crul::HttpClient$new(url = paste0(base_url,"/hydrometric-daily-mean/items")))
+  cli <- geomet_client(geomet_param = "hydrometric-monthly-mean")
 
-  # cli_pag <- crul::Paginator$new(cli,
-  #                                by = "query_params",
-  #                                limit_param = "limit",
-  #                                offset_param = "startindex",
-  #                                limit = 10,
-  #                                limit_chunk = 10)
-
-
-  res <- cli$get(query = list(STATION_NUMBER = STATION_NUMBER))
-
-  res$raise_for_status()
-  # parse response to plain text (JSON in this case) - most likely you'll
+  res <- cli$get(query = list(STATION_NUMBER = station_number))
 
   txt <- res$parse("UTF-8")
 
-  if(as_spatial) return(sf::read_sf(txt))
+  if(as_spatial) return(spatial_parse(parsed_txt = txt))
 
-  if(!as_spatial){
-    # parse to json
-    parsed <- jsonlite::fromJSON(txt)
-
-    lat_long_strings <- parsed[["features"]][["geometry"]][["coordinates"]][[1]]
-
-    cbind(parsed[["features"]][["properties"]],
-          LATITUDE = lat_long_strings[2],
-          LONGITUDE = lat_long_strings[1])
-  }
+  if(!as_spatial) tibble_parse(parsed_txt = txt)
 }
-

@@ -9,8 +9,9 @@ Imports:
     crul,
     curl,
     jsonlite,
-    sf
+    dplyr
 Suggests: 
+    sf,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
