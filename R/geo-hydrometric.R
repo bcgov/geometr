@@ -1,4 +1,4 @@
-#' Query Water survey of Canada statiosn
+#' Query Water survey of Canada stations
 #'
 #' Query geospatial webservice for hydrometric data
 #'
