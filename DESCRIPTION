@@ -1,9 +1,9 @@
 Package: geometr
-Title: What the Package Does (One Line, Title Case)
+Title: ECCC Met data in R
 Version: 0.0.0.9000
 Authors@R: c(person("Sam", "Albers", email = "Sam.Albers@gov.bc.ca", role = c("aut", "cre")), 
                                           person("Province of British Columbia", role = "cph"))
-Description: What the package does (one paragraph).
+Description: R interface to Environment and Climate Change Canada's GeoMet Webservice
 License: Apache License (== 2.0) | file LICENSE
 Imports: 
     crul,
