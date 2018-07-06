@@ -11,6 +11,8 @@
 
 geomet_stations <- function(station_number = NULL, as_spatial = FALSE){
 
+  stop_if_all_args_null()
+
   is_there_internet()
 
   cli <- geomet_client(geomet_param = "hydrometric-stations")
@@ -36,7 +38,9 @@ geomet_stations <- function(station_number = NULL, as_spatial = FALSE){
 #' @examples  geomet_daily_mean("08MF005")
 geomet_daily_mean <- function(station_number = NULL, as_spatial = FALSE){
 
+  stop_if_all_args_null()
   is_there_internet()
+
 
   cli <- geomet_client(geomet_param = "hydrometric-daily-mean")
 
@@ -60,6 +64,7 @@ geomet_daily_mean <- function(station_number = NULL, as_spatial = FALSE){
 #' @examples  geomet_annual_stats("08MF005")
 geomet_annual_stats <- function(station_number = NULL, as_spatial = FALSE) {
 
+  stop_if_all_args_null()
   is_there_internet()
 
   cli <- geomet_client(geomet_param = "hydrometric-annual-statistics")
@@ -84,6 +89,7 @@ geomet_annual_stats <- function(station_number = NULL, as_spatial = FALSE) {
 #' @examples  geomet_annual_instant_peaks("08MF005")
 geomet_annual_instant_peaks <- function(station_number = NULL, as_spatial = FALSE) {
 
+  stop_if_all_args_null()
   is_there_internet()
 
   cli <- geomet_client(geomet_param = "hydrometric-annual-peaks")
@@ -109,6 +115,7 @@ geomet_annual_instant_peaks <- function(station_number = NULL, as_spatial = FALS
 #' @examples geomet_monthly_mean("08MF005")
 geomet_monthly_mean <- function(station_number = NULL, as_spatial = FALSE) {
 
+  stop_if_all_args_null()
   is_there_internet()
 
   cli <- geomet_client(geomet_param = "hydrometric-monthly-mean")

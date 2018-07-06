@@ -35,5 +35,26 @@ geomet_client <- function(geomet_param = NULL) {
 }
 
 
+stop_if_all_args_null <- function() {
 
+  ## Set parent environment
+  parent_env <- sys.parent()
+
+  ## Get the formals from the parent environment
+  parent_formals <- formals(fun = sys.function(parent_env))
+
+  ## Eval those formals in the parent environment
+  eval_formals <- mget(names(parent_formals), sys.frame(parent_env))
+
+  ## Subset parameters to the API can't all be null
+  args_to_check_if_null <- eval_formals[names(eval_formals) %in% c("bbox","time","station_number")]
+
+  ## Determine which elements are null
+  ## Makes sure we don't error if other no API call params aren't called
+  null_list <- vapply(args_to_check_if_null, is.null, FUN.VALUE = logical(1))
+
+  ## Throw error is all these are null
+  if(all(null_list)) stop("At least one argument needs to be non NULL", call. = FALSE)
+
+}
 
