@@ -30,6 +30,10 @@ spatial_parse <- function(parsed_txt, ...) {
 geomet_client <- function(geomet_param = NULL) {
   param_url <- sprintf("%s/%s/items", base_url(), geomet_param)
 
-  crul::HttpClient$new(param_url)
+  crul::HttpClient$new(url = param_url,
+                       headers = list(`User-Agent` = "https://github.com/bcgov/geometr"))
 }
+
+
+
 
