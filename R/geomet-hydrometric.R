@@ -37,6 +37,9 @@ geomet_stations <- function(station_number = NULL, as_spatial = FALSE){
 #'
 #' @examples  geomet_daily_mean("08MF005")
 geomet_daily_mean <- function(station_number = NULL, as_spatial = FALSE){
+  browser()
+
+  query_list <-  list(STATION_NUMBER = station_number)
 
   stop_if_all_args_null()
   is_there_internet()
@@ -44,9 +47,18 @@ geomet_daily_mean <- function(station_number = NULL, as_spatial = FALSE){
 
   cli <- geomet_client(geomet_param = "hydrometric-daily-mean")
 
-  res <- cli$get(query = list(STATION_NUMBER = station_number))
+  ## Total number of records available
+  number_record <- num_matched_records(query_list, cli)
 
-  txt <- res$parse("UTF-8")
+  (cc <- Paginator$new(client = cli, by = "query_params", limit_param = "limit",
+                       offset_param = "startindex", limit = number_record, limit_chunk = 10000))
+
+  cc$get(query = query_list)
+
+
+  parsed <-lapply(cc$parse("UTF-8"), jsonlite::fromJSON)
+
+
 
   if(as_spatial) return(spatial_parse(txt))
 

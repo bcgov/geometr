@@ -60,3 +60,12 @@ stop_if_all_args_null <- function() {
 
 }
 
+## Issue a query of one to get the max number of records available
+num_matched_records <- function(query_list, client){
+  query_list <- c(query_list, limit = 1)
+
+  res_max <- cli$get(query = query_list)
+  txt_max <- res_max$parse("UTF-8")
+  jsonlite::fromJSON(txt_max)$numberMatched
+
+}
