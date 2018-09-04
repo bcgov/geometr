@@ -4,7 +4,7 @@
 \alias{geomet_stations}
 \title{Query Water Survey of Canada data}
 \usage{
-geomet_stations(station_number = NULL, as_spatial = FALSE)
+geomet_stations(station_number = NULL, as_spatial = TRUE)
 }
 \arguments{
 \item{station_number}{A seven digit Water Survey of Canada station number.}

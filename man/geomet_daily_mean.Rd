@@ -4,7 +4,7 @@
 \alias{geomet_daily_mean}
 \title{Query Water Survey of Canada data}
 \usage{
-geomet_daily_mean(station_number = NULL, as_spatial = FALSE)
+geomet_daily_mean(station_number = NULL, as_spatial = TRUE)
 }
 \arguments{
 \item{station_number}{A seven digit Water Survey of Canada station number.}

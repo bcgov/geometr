@@ -1,3 +1,17 @@
+# Copyright 2018 Province of British Columbia
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and limitations under the License.
+
+
+
 is_there_internet <- function(){
   if(!curl::has_internet()) stop("You do not appear to have a functioning internet connection")
 }
@@ -7,25 +21,6 @@ base_url <- function() {
   "http://geo.weather.gc.ca/geomet-beta/features/collections"
 }
 
-tibble_parse <- function(parsed_txt) {
-
-  parsed <- jsonlite::fromJSON(parsed_txt)
-
-  lat_long_strings <- parsed[["features"]][["geometry"]][["coordinates"]][[1]]
-
-  no_spatial_parsed <- cbind(parsed[["features"]][["properties"]],
-                             LATITUDE = lat_long_strings[2],
-                             LONGITUDE = lat_long_strings[1]
-  )
-
-  dplyr::as_tibble(no_spatial_parsed)
-}
-
-spatial_parse <- function(parsed_txt, ...) {
-
-  sf::read_sf(parsed_txt, stringsAsFactors = FALSE, quiet = TRUE, ...)
-
-}
 
 geomet_client <- function(geomet_param = NULL) {
   param_url <- sprintf("%s/%s/items", base_url(), geomet_param)
@@ -62,10 +57,13 @@ stop_if_all_args_null <- function() {
 
 ## Issue a query of one to get the max number of records available
 num_matched_records <- function(query_list, client){
+
   query_list <- c(query_list, limit = 1)
 
-  res_max <- cli$get(query = query_list)
+  res_max <- client$get(query = query_list)
   txt_max <- res_max$parse("UTF-8")
   jsonlite::fromJSON(txt_max)$numberMatched
 
 }
+
+
