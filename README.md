@@ -30,16 +30,146 @@ remotes::install_github("bcgov/geometr")
 
 ### Usage
 
+First we have to load the package
+
 ``` r
 library(geometr)
-geomet_stations(station_number = "08MF005")
-#> # A tibble: 1 x 11
-#>   CONTRIBUTOR_FR STATUS_EN STATION_NUMBER CONTRIBUTOR_EN    VERTICAL_DATUM
-#> * <lgl>          <chr>     <chr>          <chr>             <chr>         
-#> 1 NA             Active    08MF005        WATER SURVEY OF ~ ASSUMED DATUM 
-#> # ... with 6 more variables: STATUS_FR <chr>, STATION_NAME <chr>,
-#> #   IDENTIFIER <chr>, PROV_TERR_STATE_LOC <chr>, LATITUDE <dbl>,
-#> #   LONGITUDE <dbl>
+```
+
+The collections current supported by the geomet webservice are (as of
+2018-09-04):
+
+``` r
+collections <- geomet_collection()
+
+collections[,c("title", "name")]
+#> # A tibble: 5 x 2
+#>   title                                            name                   
+#>   <chr>                                            <chr>                  
+#> 1 Monthly Mean of Water Level or Flow              hydrometric-monthly-me~
+#> 2 Annual Maximum and Minimum Instantaneous Water ~ hydrometric-annual-pea~
+#> 3 Annual Maximum and Minimum Daily Water Level or~ hydrometric-annual-sta~
+#> 4 Hydrometric Monitoring Stations                  hydrometric-stations   
+#> 5 Daily Mean of Water Level or Flow                hydrometric-daily-mean
+```
+
+For instance daily mean value can be queried using:
+
+``` r
+geomet_daily_mean(station_number = "08MF005")
+#> OK
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_BAG.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_BAG.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_FITS.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_FITS.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_GMT.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_GMT.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF4.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF4.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF4Image.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF4Image.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF5.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF5.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF5Image.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF5Image.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_KEA.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_KEA.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_netCDF.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_netCDF.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_BAG.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_BAG.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_FITS.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_FITS.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_GMT.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_GMT.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF4.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF4.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF4Image.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF4Image.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF5.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF5.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF5Image.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_HDF5Image.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_KEA.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_KEA.dll
+#> 193: %1 is not a valid Win32 application.
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_netCDF.dll
+#> 193: %1 is not a valid Win32 application.
+
+#> Warning in CPL_gdal_init(): GDAL Error 1: Can't load requested DLL: C:\Program Files (x86)\GDAL\gdalplugins\gdal_netCDF.dll
+#> 193: %1 is not a valid Win32 application.
+#> Simple feature collection with 10000 features and 12 fields
+#> geometry type:  POINT
+#> dimension:      XY
+#> bbox:           xmin: -121.4542 ymin: 49.38596 xmax: -121.4542 ymax: 49.38596
+#> epsg (SRID):    4326
+#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
+#> # A tibble: 10,000 x 13
+#>    id    station_number level level_symbol_en  flow flow_symbol_en
+#>    <chr> <chr>          <dbl> <chr>           <dbl> <chr>         
+#>  1 08MF~ 08MF005         2.96 <NA>              479 <NA>          
+#>  2 08MF~ 08MF005         2.93 <NA>              459 <NA>          
+#>  3 08MF~ 08MF005         2.93 <NA>              459 <NA>          
+#>  4 08MF~ 08MF005         2.90 <NA>              439 <NA>          
+#>  5 08MF~ 08MF005         2.93 <NA>              459 <NA>          
+#>  6 08MF~ 08MF005         2.96 <NA>              479 <NA>          
+#>  7 08MF~ 08MF005         3.32 <NA>              716 <NA>          
+#>  8 08MF~ 08MF005         3.41 <NA>              787 <NA>          
+#>  9 08MF~ 08MF005         3.41 <NA>              787 <NA>          
+#> 10 08MF~ 08MF005         3.66 <NA>              991 <NA>          
+#> # ... with 9,990 more rows, and 7 more variables: flow_symbol_fr <chr>,
+#> #   level_symbol_fr <chr>, date <date>, station_name <chr>,
+#> #   identifier <chr>, prov_terr_state_loc <chr>, geometry <POINT [Â°]>
 ```
 
 ### Getting Help or Reporting an Issue
