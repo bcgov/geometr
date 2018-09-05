@@ -37,10 +37,21 @@ remotes::install_github("bcgov/geometr")
 ```
 
 ### Usage
-
+First we have to load the package
 ```{r}
 library(geometr)
-geomet_stations(station_number = "08MF005")
+```
+
+The collections current supported by the geomet webservice are (as of `r Sys.Date()`):
+```{r}
+collections <- geomet_collection()
+
+collections[,c("title", "name")]
+```
+
+For instance daily mean value can be queried using:
+```{r}
+geomet_daily_mean(station_number = "08MF005")
 ```
 
 
