@@ -49,9 +49,19 @@ collections <- geomet_collection()
 collections[,c("title", "name")]
 ```
 
-For instance daily mean value can be queried using:
+For instance daily mean flow values can be queried using:
 ```{r}
-geomet_daily_mean(station_number = "08MF005")
+geomet_daily_mean(station_number = "10PC003")
+```
+This returns an `sf` object by default. If you would rather simply return a tibble you can set `as_spatial=FALSE`:
+```{r}
+geomet_daily_mean(station_number = "10PC003", as_spatial = FALSE)
+```
+
+We can also query by time ranges using the `start_date` and `end_date` arguments:
+```{r, eval=FALSE}
+geomet_daily_mean(station_number = "10PC003", start_date = "1983-07-11")
+geomet_daily_mean(station_number = "10PC003", end_date = "1983-07-11")
 ```
 
 
