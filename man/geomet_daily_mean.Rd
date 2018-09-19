@@ -5,7 +5,8 @@
 \title{Query Water Survey of Canada data}
 \usage{
 geomet_daily_mean(station_number = NULL, as_spatial = TRUE,
-  start_date = NULL, end_date = NULL, page_limit = 500)
+  start_date = NULL, end_date = NULL, page_limit = 500,
+  verbose = FALSE)
 }
 \arguments{
 \item{station_number}{A seven digit Water Survey of Canada station number.}
@@ -20,6 +21,8 @@ available data is returned.}
 
 \item{page_limit}{Default to 500. You likely will not need to change this value. This represents the maximum number of records that can be requested
 for each pagination request.}
+
+\item{verbose}{Defaults to FALSE. Do you want the URLs used to make the GET call to be printed?}
 }
 \description{
 Query geomet webservice for hydrometric data

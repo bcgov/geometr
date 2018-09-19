@@ -52,6 +52,7 @@ geomet_stations <- function(station_number = NULL, as_spatial = TRUE){
 #' available data is returned.
 #' @param page_limit Default to 500. You likely will not need to change this value. This represents the maximum number of records that can be requested
 #'                   for each pagination request.
+#' @param verbose Defaults to FALSE. Do you want the URLs used to make the GET call to be printed?
 #'
 #' @export
 #'
@@ -59,7 +60,7 @@ geomet_stations <- function(station_number = NULL, as_spatial = TRUE){
 #' geomet_daily_mean("10PC003")
 #'
 #' geomet_daily_mean("10PC003", start_date = "1983-07-04")
-geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE, start_date = NULL, end_date = NULL, page_limit = 500){
+geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE, start_date = NULL, end_date = NULL, page_limit = 500, verbose = FALSE){
   #browser()
 
   ## Argument Checks
@@ -85,7 +86,10 @@ geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE, start_da
 
   cc$get(query = query_list)
 
+  if(compareVersion(as.character(packageVersion("crul")), "0.6.0.9310") <= 0 && verbose) cat("Paginated URLs:\n", paste0(cc$url_fetch(),"\n"))
+
   txt <- cc$parse("UTF-8")
+
 
   if(as_spatial) return(spatial_parse(txt))
 
