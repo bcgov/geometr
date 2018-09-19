@@ -46,16 +46,33 @@ geomet_stations <- function(station_number = NULL, as_spatial = TRUE){
 #' Query geomet webservice for hydrometric data
 #'
 #' @inheritParams geomet_stations
+#' @param start_date Accepts either YYYY-MM-DD. If this argument is left missing, the function will return all data prior to \code{end_date}. If both are NULL all
+#' available data is returned.
+#' @param end_date Accepts either YYYY-MM-DD. If this argument is left missing, the function will return all data after \code{start_date}. If both are NULL all
+#' available data is returned.
+#' @param page_limit Default to 500. You likely will not need to change this value. This represents the maximum number of records that can be requested
+#'                   for each pagination request.
 #'
 #' @export
 #'
-#' @examples  geomet_daily_mean("08MF005")
-geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE){
+#' @examples
+#' geomet_daily_mean("10PC003")
+#'
+#' geomet_daily_mean("10PC003", start_date = "1983-07-04")
+geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE, start_date = NULL, end_date = NULL, page_limit = 500){
+  #browser()
 
-  query_list <-  list(STATION_NUMBER = station_number)
-
+  ## Argument Checks
   stop_if_all_args_null()
   is_there_internet()
+  check_date_format(start_date, end_date)
+  date_range <- handle_dates(start_date = start_date, end_date = end_date)
+
+  ## Refine query list
+  query_list <-  list(STATION_NUMBER = multi_stations(station_number),
+                      time = date_range)
+  ## Drop any NULLS from the list
+  query_list <- Filter(Negate(is.null), query_list)
 
 
   cli <- geomet_client(geomet_param = "hydrometric-daily-mean")
@@ -64,7 +81,7 @@ geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE){
   number_record <- num_matched_records(query_list, cli)
 
   (cc <- crul::Paginator$new(client = cli, by = "query_params", limit_param = "limit",
-                       offset_param = "startindex", limit = number_record, limit_chunk = 10000))
+                       offset_param = "startindex", limit = number_record, limit_chunk = page_limit))
 
   cc$get(query = query_list)
 

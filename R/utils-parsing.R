@@ -57,6 +57,7 @@ parsing_helper <- function(x){
 }
 
 spatial_parse <- function(parsed_txt, ...) {
+  #browser()
 
   spatial_parsed <- sf::read_sf(parsed_txt, stringsAsFactors = FALSE, quiet = TRUE, ...)
 

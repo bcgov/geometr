@@ -10,9 +10,9 @@ Imports:
     curl,
     jsonlite,
     dplyr,
-    purrr
+    purrr,
+    sf
 Suggests: 
-    sf,
     knitr,
     rmarkdown,
     testthat

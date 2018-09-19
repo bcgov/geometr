@@ -4,16 +4,28 @@
 \alias{geomet_daily_mean}
 \title{Query Water Survey of Canada data}
 \usage{
-geomet_daily_mean(station_number = NULL, as_spatial = TRUE)
+geomet_daily_mean(station_number = NULL, as_spatial = TRUE,
+  start_date = NULL, end_date = NULL, page_limit = 500)
 }
 \arguments{
 \item{station_number}{A seven digit Water Survey of Canada station number.}
 
 \item{as_spatial}{Convert to sf object. Defaults to FALSE.}
+
+\item{start_date}{Accepts either YYYY-MM-DD. If this argument is left missing, the function will return all data prior to \code{end_date}. If both are NULL all
+available data is returned.}
+
+\item{end_date}{Accepts either YYYY-MM-DD. If this argument is left missing, the function will return all data after \code{start_date}. If both are NULL all
+available data is returned.}
+
+\item{page_limit}{Default to 500. You likely will not need to change this value. This represents the maximum number of records that can be requested
+for each pagination request.}
 }
 \description{
 Query geomet webservice for hydrometric data
 }
 \examples{
- geomet_daily_mean("08MF005")
+geomet_daily_mean("10PC003")
+
+geomet_daily_mean("10PC003", start_date = "1983-07-04")
 }
