@@ -13,7 +13,7 @@
 
 
 ## Parsing helpers for a basic output
-tibble_parse <- function(parsed_txt) {
+parse_response <- function(parsed_txt, as_spatial) {
 
   ## Iterate over paginated results
   parsed <- purrr::map_dfr(parsed_txt, parsing_helper)
@@ -27,22 +27,33 @@ tibble_parse <- function(parsed_txt) {
 
   colnames(coords) <- c("LONGITUDE","LATITUDE")
 
-  ## Add the new separate columns to data
-  no_spatial_parsed <- cbind(parsed, coords)
+  ## Add the new separate columns to data non spatial
+  if(!as_spatial) parsed <- dplyr::as_tibble(cbind(parsed, coords))
 
-  if("DATE" %in% colnames(no_spatial_parsed)){
+  ## Parsed to spatial data
+  if(as_spatial){
+    parsed <- cbind(parsed, coords)
+    parsed <- sf::st_as_sf(parsed,
+                           coords = c("LONGITUDE", "LATITUDE"),
+                           agr = "constant", crs = 4236)
+
+    class(parsed) <- c("sf", "tbl", "tbl_df", "data.frame")
+  }
+
+  if("DATE" %in% colnames(parsed)){
     ## Parse date correctly
-    no_spatial_parsed$DATE <- as.Date(no_spatial_parsed$DATE, format="%Y-%m-%d")
+    parsed$DATE <- as.Date(parsed$DATE, format="%Y-%m-%d")
     ## Sort by date
-    no_spatial_parsed <- no_spatial_parsed[order(no_spatial_parsed$DATE),]
+    parsed <- parsed[order(parsed$DATE),]
   }
 
   ## All lower case
-  colnames(no_spatial_parsed) <- tolower(colnames(no_spatial_parsed))
+  colnames(parsed) <- tolower(colnames(parsed))
 
-  dplyr::as_tibble(no_spatial_parsed)
+  return(parsed)
 
 }
+
 
 
 parsing_helper <- function(x){
@@ -56,19 +67,3 @@ parsing_helper <- function(x){
 
 }
 
-spatial_parse <- function(parsed_txt, ...) {
-  #browser()
-
-  spatial_parsed <- sf::read_sf(parsed_txt, stringsAsFactors = FALSE, quiet = TRUE, ...)
-
-  if("DATE" %in% colnames(spatial_parsed)){
-    ## Sort by date
-    spatial_parsed <- spatial_parsed[order(spatial_parsed$DATE),]
-  }
-
-  ## All lower case
-  colnames(spatial_parsed) <- tolower(colnames(spatial_parsed))
-
-  return(spatial_parsed)
-
-}

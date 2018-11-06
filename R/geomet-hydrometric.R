@@ -61,7 +61,6 @@ geomet_stations <- function(station_number = NULL, as_spatial = TRUE){
 #'
 #' geomet_daily_mean("10PC003", start_date = "1983-07-04")
 geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE, start_date = NULL, end_date = NULL, page_limit = 500, verbose = FALSE){
-  #browser()
 
   ## Argument Checks
   stop_if_all_args_null()
@@ -81,8 +80,8 @@ geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE, start_da
   ## Total number of records available
   number_record <- num_matched_records(query_list, cli)
 
-  (cc <- crul::Paginator$new(client = cli, by = "query_params", limit_param = "limit",
-                       offset_param = "startindex", limit = number_record, limit_chunk = page_limit))
+  cc <- crul::Paginator$new(client = cli, by = "query_params", limit_param = "limit",
+                       offset_param = "startindex", limit = number_record, limit_chunk = page_limit)
 
   cc$get(query = query_list)
 
@@ -90,10 +89,7 @@ geomet_daily_mean <- function(station_number = NULL, as_spatial = TRUE, start_da
 
   txt <- cc$parse("UTF-8")
 
-
-  if(as_spatial) return(spatial_parse(txt))
-
-  if(!as_spatial) tibble_parse(txt)
+  parse_response(txt, as_spatial)
 }
 
 #' Query Water Survey of Canada data
