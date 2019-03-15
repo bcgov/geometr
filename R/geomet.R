@@ -16,6 +16,9 @@
 #'
 #' Outputs a tibble of the collections currently available via the webservice.
 #'
+#' @examples
+#' geomet_collection()
+#'
 #' @export
 
 geomet_collection <- function() {
@@ -35,13 +38,13 @@ geomet_collection <- function() {
 }
 
 
-#' Query Water Survey of Canada data
+#' Query GeoMet for data
 #'
-#' Query geomet webservice for hydrometric data
+#' Query geomet webservice for ECCC data
 #'
-#' @param parameter One of \code{grep("hydrometric", geomet_collection()$name, value = TRUE)}
-#' @param station_number A seven digit Water Survey of Canada station number.
-#' @param as_spatial Convert to sf object. Defaults to FALSE.
+#' @param parameter One of \code{geomet_collection()$name}
+#' @param station_number A meteorological/hydrometric station number.
+#' @param as_spatial Convert to sf object. Defaults to TRUE.
 #' @param start_date Accepts either YYYY-MM-DD. If this argument is left missing, the function will return all data prior to \code{end_date}. If both are NULL all
 #' available data is returned.
 #' @param end_date Accepts either YYYY-MM-DD. If this argument is left missing, the function will return all data after \code{start_date}. If both are NULL all
@@ -52,13 +55,19 @@ geomet_collection <- function() {
 #'
 #' @export
 #'
-#' @examples  geomet_hydrometric(parameter = "hydrometric-daily-mean", station_number = "10PC003", start_date = "1983-07-04")
+#' @examples
+#' geomet_data(parameter = "hydrometric-daily-mean", station_number = "10PC003", start_date = "1983-07-04")
+#'
+#' ## Get all ahccd-stations
+#' geomet_data("ahccd-stations")
+#'
+#' geomet_data("ahccd-monthly", station_number = "1171020")
 
-geomet_hydrometric <- function(parameter, station_number, as_spatial = TRUE , start_date = NULL, end_date = NULL, page_limit = 500, verbose = FALSE){
+geomet_data <- function(parameter, station_number = NULL, as_spatial = TRUE , start_date = NULL, end_date = NULL, page_limit = 500, verbose = FALSE){
 
 
   ## Argument Checks
-  stop_if_all_args_null()
+  #stop_if_all_args_null()
   is_there_internet()
   check_date_format(start_date, end_date)
   date_range <- handle_dates(start_date = start_date, end_date = end_date)
@@ -80,7 +89,7 @@ geomet_hydrometric <- function(parameter, station_number, as_spatial = TRUE , st
 
   cc$get(query = query_list)
 
-  if(compareVersion(as.character(packageVersion("crul")), "0.6.0.9310") <= 0 && verbose) cat("Paginated URLs:\n", paste0(cc$url_fetch(),"\n"))
+  if(verbose) cat("Paginated URLs:\n", paste0(cc$url_fetch(),"\n"))
 
   txt <- cc$parse("UTF-8")
 

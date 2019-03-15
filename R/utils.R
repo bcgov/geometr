@@ -12,7 +12,7 @@
 
 
 base_url <- function() {
-  "http://geo.weather.gc.ca/geomet-beta/features/collections"
+  "http://geo.weather.gc.ca/geomet/features/collections"
 }
 
 

@@ -9,3 +9,7 @@ geomet_collection()
 \description{
 Outputs a tibble of the collections currently available via the webservice.
 }
+\examples{
+geomet_collection()
+
+}
