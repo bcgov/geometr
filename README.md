@@ -37,93 +37,37 @@ library(geometr)
 ```
 
 The collections current supported by the geomet webservice are (as of
-2018-09-18):
+2019-03-15):
 
 ``` r
 collections <- geomet_collection()
 
-collections[,c("title", "name")]
-#> # A tibble: 15 x 2
-#>    title                                            name                  
-#>    <chr>                                            <chr>                 
-#>  1 Monthly Mean of Water Level or Flow              hydrometric-monthly-m~
-#>  2 Hydrometric Monitoring Stations                  hydrometric-stations  
-#>  3 Adjusted and Homogenized Canadian Climate Data ~ ahccd-stations        
-#>  4 Daily Mean of Water Level or Flow                hydrometric-daily-mean
-#>  5 Adjusted and Homogenized Canadian Climate Data ~ ahccd-annual          
-#>  6 Annual Maximum and Minimum Instantaneous Water ~ hydrometric-annual-pe~
-#>  7 Adjusted and Homogenized Canadian Climate Data ~ ahccd-seasonal        
-#>  8 Adjusted and Homogenized Canadian Climate Data ~ ahccd-trends          
-#>  9 Coupled Model Intercomparison Project Phase 5 (~ cmip5                 
-#> 10 MSC Monthly Data                                 climate-monthly       
-#> 11 Annual Maximum and Minimum Daily Water Level or~ hydrometric-annual-st~
-#> 12 1981-2010 Climate Normals                        climate-normals       
-#> 13 Climate Stations                                 climate-stations      
-#> 14 MSC Daily Data                                   climate-daily         
-#> 15 Adjusted and Homogenized Canadian Climate Data ~ ahccd-monthly
+collections
+#> # A tibble: 15 x 6
+#>    title          name      description           extent crs        links  
+#>    <chr>          <chr>     <chr>                 <list> <chr>      <list> 
+#>  1 Monthly Mean ~ hydromet~ The monthly mean is ~ <int ~ http://ww~ <data.~
+#>  2 Hydrometric M~ hydromet~ A station is a site ~ <int ~ http://ww~ <data.~
+#>  3 Adjusted and ~ ahccd-st~ Adjusted and Homogen~ <int ~ http://ww~ <data.~
+#>  4 Daily Mean of~ hydromet~ The daily mean is th~ <int ~ http://ww~ <data.~
+#>  5 Adjusted and ~ ahccd-an~ Adjusted and Homogen~ <int ~ http://ww~ <data.~
+#>  6 Annual Maximu~ hydromet~ The annual maximum a~ <int ~ http://ww~ <data.~
+#>  7 Adjusted and ~ ahccd-se~ Adjusted and Homogen~ <int ~ http://ww~ <data.~
+#>  8 Adjusted and ~ ahccd-tr~ Adjusted and Homogen~ <int ~ http://ww~ <data.~
+#>  9 Coupled Model~ cmip5     Coupled Model Interc~ <int ~ http://ww~ <data.~
+#> 10 MSC Monthly D~ climate-~ MSC Monthly Data      <int ~ http://ww~ <data.~
+#> 11 Annual Maximu~ hydromet~ The annual maximum a~ <int ~ http://ww~ <data.~
+#> 12 1981-2010 Cli~ climate-~ 1981-2010 Climate No~ <int ~ http://ww~ <data.~
+#> 13 Climate Stati~ climate-~ Climate Stations      <int ~ http://ww~ <data.~
+#> 14 MSC Daily Data climate-~ MSC Daily Data        <int ~ http://ww~ <data.~
+#> 15 Adjusted and ~ ahccd-mo~ Adjusted and Homogen~ <int ~ http://ww~ <data.~
 ```
 
-For instance daily mean flow values can be queried using:
+The envisioned API is a `geomet_data`. Currently only hydrometric is
+supported:
 
 ``` r
-geomet_daily_mean(station_number = "10PC003")
-#> No start and end dates specified. All dates available will be returned.
-#> OK
-#> Simple feature collection with 500 features and 12 fields
-#> geometry type:  POINT
-#> dimension:      XY
-#> bbox:           xmin: -115.3786 ymin: 67.74028 xmax: -115.3786 ymax: 67.74028
-#> epsg (SRID):    4326
-#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
-#> # A tibble: 500 x 13
-#>    id    station_number level level_symbol_en  flow flow_symbol_en
-#>    <chr> <chr>          <chr> <chr>           <dbl> <chr>         
-#>  1 10PC~ 10PC003        <NA>  <NA>               NA <NA>          
-#>  2 10PC~ 10PC003        <NA>  <NA>               NA <NA>          
-#>  3 10PC~ 10PC003        <NA>  <NA>               NA <NA>          
-#>  4 10PC~ 10PC003        <NA>  <NA>               NA <NA>          
-#>  5 10PC~ 10PC003        <NA>  <NA>               NA <NA>          
-#>  6 10PC~ 10PC003        <NA>  <NA>               NA <NA>          
-#>  7 10PC~ 10PC003        <NA>  <NA>               NA <NA>          
-#>  8 10PC~ 10PC003        <NA>  <NA>               NA <NA>          
-#>  9 10PC~ 10PC003        <NA>  <NA>              682 <NA>          
-#> 10 10PC~ 10PC003        <NA>  <NA>              641 <NA>          
-#> # ... with 490 more rows, and 7 more variables: flow_symbol_fr <chr>,
-#> #   level_symbol_fr <chr>, date <date>, station_name <chr>,
-#> #   identifier <chr>, prov_terr_state_loc <chr>, geometry <POINT [Â°]>
-```
-
-This returns an `sf` object by default. If you would rather simply
-return a tibble you can set `as_spatial=FALSE`:
-
-``` r
-geomet_daily_mean(station_number = "10PC003", as_spatial = FALSE)
-#> No start and end dates specified. All dates available will be returned.
-#> OK
-#> # A tibble: 1,280 x 13
-#>    station_number level level_symbol_en  flow flow_symbol_en flow_symbol_fr
-#>  * <chr>          <lgl> <lgl>           <dbl> <chr>          <chr>         
-#>  1 10PC003        NA    NA                 NA <NA>           <NA>          
-#>  2 10PC003        NA    NA                 NA <NA>           <NA>          
-#>  3 10PC003        NA    NA                 NA <NA>           <NA>          
-#>  4 10PC003        NA    NA                 NA <NA>           <NA>          
-#>  5 10PC003        NA    NA                 NA <NA>           <NA>          
-#>  6 10PC003        NA    NA                 NA <NA>           <NA>          
-#>  7 10PC003        NA    NA                 NA <NA>           <NA>          
-#>  8 10PC003        NA    NA                 NA <NA>           <NA>          
-#>  9 10PC003        NA    NA                 NA <NA>           <NA>          
-#> 10 10PC003        NA    NA                 NA <NA>           <NA>          
-#> # ... with 1,270 more rows, and 7 more variables: level_symbol_fr <lgl>,
-#> #   date <date>, station_name <chr>, identifier <chr>,
-#> #   prov_terr_state_loc <chr>, longitude <dbl>, latitude <dbl>
-```
-
-We can also query by time ranges using the `start_date` and `end_date`
-arguments:
-
-``` r
-geomet_daily_mean(station_number = "10PC003", start_date = "1983-07-11")
-geomet_daily_mean(station_number = "10PC003", end_date = "1983-07-11")
+geomet_data(parameter = "hydrometric-daily-mean", station_number = "10PC003", start_date = "1983-07-04")
 ```
 
 ### Getting Help or Reporting an Issue
