@@ -12,7 +12,7 @@
 
 
 base_url <- function() {
-  "http://geo.weather.gc.ca/geomet-beta/features/collections"
+  "http://geo.weather.gc.ca/geomet/features/collections"
 }
 
 
@@ -34,7 +34,8 @@ num_matched_records <- function(query_list, client){
   query_list <- c(query_list, limit = 1)
 
   ## Drop any time parameter - we are just after total number for this full request
-  query_list$time <- NULL
+  ## Actually I thihk we should include a time parameter
+  #query_list$time <- NULL
 
   res_max <- client$get(query = query_list)
   txt_max <- res_max$parse("UTF-8")
